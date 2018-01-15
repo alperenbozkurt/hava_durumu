@@ -112,6 +112,19 @@
               <div class="item" data-value="Düzce">Düzce</div>
             </div>
           </div><br>
+          <div class="ui selection dropdown" id="select">
+            <input type="hidden" name="saat">
+            <i class="dropdown icon"></i>
+            <div class="default text">Saat</div>
+            <div class="menu">
+              <?php
+                $times = get_time();
+                for ($i=0; $i < count($times['list']) ; $i++) {
+                  echo '<div class="item" data-value="'.$i.'">'.date('H',$times['list'][$i]['dt']).':00</div>';
+                }
+              ?>
+            </div>
+          </div>
           <button class="ui animated button right floated <?php echo $color; ?>" tabindex="0">
             <div class="visible content">Hava Durumu Bilgisini Getir</div>
             <div class="hidden content">
@@ -125,19 +138,21 @@
     </div>
     <div class="cities center">
       <?php
-        if (isset($_GET['sehirler'])) {
-          if ($_GET['sehirler'] != null ) {
-            $cities = preg_split('/,/', $_GET['sehirler']);
-            $page = 0;
-            if (isset($_GET['sayfa'])) {
-              $page = $_GET['sayfa'];
-            }
-            $first =  5 * $page;
-            $last = $first + 5;
-            $new_cities = array_slice($cities, $first, 5);
-            foreach ($new_cities as $city) {
-              hava_durumu($city, $color);
-            }
+        if (isset($_GET['sehirler']) && $_GET['sehirler'] != null ) {
+          $clock = -1;
+          if (isset($_GET['saat']) && $_GET['saat'] != null) {
+            $clock = $_GET['saat'];
+          }
+          $cities = preg_split('/,/', $_GET['sehirler']);
+          $page = 0;
+          if (isset($_GET['sayfa'])) {
+            $page = $_GET['sayfa'];
+          }
+          $first =  5 * $page;
+          $last = $first + 5;
+          $new_cities = array_slice($cities, $first, 5);          
+          foreach ($new_cities as $city) {
+            hava_durumu($city, $color, $clock);
           }
         }
       ?>
@@ -147,18 +162,18 @@
         <div class="ui buttons right floated">
           <?php
             if ($page != 0) {
-              echo '<a href="?sehirler='.$_GET['sehirler'].'&sayfa='. ($page - 1) .'" class="ui labeled icon button"><i class="left chevron icon"></i>Geri</a>';
+              echo '<a href="?sehirler='.$_GET['sehirler'].'&sayfa='. ($page - 1) .'&saat='.$clock.'" class="ui labeled icon button"><i class="left chevron icon"></i>Geri</a>';
             }
             for ($i=0; $i < ceil(count($cities)/5); $i++) {
               $is_active = "";
               if ($page == $i) {
                 $is_active = 'active';
               }
-              echo '<a href="?sehirler='.$_GET['sehirler'].'&sayfa='. $i .'" class="ui icon button '.$is_active.'"> '. ($i + 1) .'</a>';
+              echo '<a href="?sehirler='.$_GET['sehirler'].'&sayfa='. $i .'&saat='.$clock.'" class="ui icon button '.$is_active.'"> '. ($i + 1) .'</a>';
 
             }
             if (count($cities) > $last) {
-              echo '<a href="?sehirler='.$_GET['sehirler'].'&sayfa='. ($page + 1) .'" class="ui right labeled icon button">İleri<i class="right chevron icon"></i></a>';
+              echo '<a href="?sehirler='.$_GET['sehirler'].'&sayfa='. ($page + 1) .'&saat='.$clock.'" class="ui right labeled icon button">İleri<i class="right chevron icon"></i></a>';
             }
           ?>
         </div>
@@ -166,6 +181,9 @@
     <?php } ?>
     <script type="text/javascript">
       $('#multi-select')
+        .dropdown()
+      ;
+      $('#select')
         .dropdown()
       ;
     </script>
