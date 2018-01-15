@@ -149,8 +149,15 @@
             if ($page != 0) {
               echo '<a href="?sehirler='.$_GET['sehirler'].'&sayfa='. ($page - 1) .'" class="ui labeled icon button"><i class="left chevron icon"></i>Geri</a>';
             }
+            for ($i=0; $i < ceil(count($cities)/5); $i++) {
+              $is_active = "";
+              if ($page == $i) {
+                $is_active = 'active';
+              }
+              echo '<a href="?sehirler='.$_GET['sehirler'].'&sayfa='. $i .'" class="ui icon button '.$is_active.'"> '. ($i + 1) .'</a>';
+
+            }
             if (count($cities) > $last) {
-              echo "page = $page";
               echo '<a href="?sehirler='.$_GET['sehirler'].'&sayfa='. ($page + 1) .'" class="ui right labeled icon button">İleri<i class="right chevron icon"></i></a>';
             }
           ?>
