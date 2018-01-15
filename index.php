@@ -11,10 +11,10 @@
   </head>
   <body>
     <div class="top">
-      <div class="title ortala">
+      <div class="title center">
         Hava Durumu Servisi
       </div>
-      <div class="index-form golge ortala">
+      <div class="index-form shadow center">
         Lütfen Hava Durumunu Görmek İstediğiniz Şehirleri Seçiniz..<br><br>
         <form class="ui form" action="">
           <div class="ui multiple selection dropdown fluid" id="multi-select">
@@ -32,7 +32,7 @@
               <div class="item" data-value="kırşehir">Kırşehir</div>
             </div>
           </div><br>
-          <button class="ui animated button right floated " tabindex="0">
+          <button class="ui animated button right floated purple" tabindex="0">
             <div class="visible content">Hava Durumu Bilgisini Getir</div>
             <div class="hidden content">
               <i class="right arrow icon"></i>
@@ -43,10 +43,14 @@
         <br>
       </div>
     </div>
-    <div class="cities">
+    <div class="cities center row">
       <?php
+        include 'functions.php';
         if ($_GET['sehirler']) {
-          echo $_GET['sehirler'];
+          $sehirler = preg_split('/,/', $_GET['sehirler']);
+          foreach ($sehirler as $sehir) {
+            hava_durumu($sehir);
+          }
         }
       ?>
     </div>
