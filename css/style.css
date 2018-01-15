@@ -34,6 +34,7 @@ body{
 .cities{
   width: 1200px;
   margin-top: 30px;
+  min-height: 300px;
 }
 .city{
   margin-bottom: 10px;
@@ -50,5 +51,9 @@ h2{
   color: #9b59b6;
 }
 .ui.dropdown:not(.button)>.default.text {
-    color: #2c3e50 !important;
+  color: #2c3e50 !important;
+}
+.pages {
+    width: 80%;
+    min-height: 50px;
 }

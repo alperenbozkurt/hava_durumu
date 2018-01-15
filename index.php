@@ -43,17 +43,41 @@
         <br>
       </div>
     </div>
-    <div class="cities center row">
+    <div class="cities center">
       <?php
+        error_reporting(E_ALL);
+        ini_set('display_errors', 1);
         include 'functions.php';
-        if ($_GET['sehirler']) {
-          $sehirler = preg_split('/,/', $_GET['sehirler']);
-          foreach ($sehirler as $sehir) {
-            hava_durumu($sehir);
+        if (isset($_GET['sehirler'])) {
+          $cities = preg_split('/,/', $_GET['sehirler']);
+          $page = 0;
+          if (isset($_GET['sayfa'])) {
+            $page = $_GET['sayfa'];
+          }
+          $first =  5 * $page;
+          $last = 5 * $page + 5;
+          $new_cities = array_slice($cities, $first, $last);
+          foreach ($new_cities as $city) {
+            hava_durumu($city);
           }
         }
       ?>
+
     </div>
+    <?php if (isset($_GET['sehirler'])) { ?>
+      <div class="pages center">
+        <div class="ui buttons right floated">
+          <?php
+            if ($page != 0) {
+              echo '<a href="?sehirler='.$_GET['sehirler'].'&sayfa='. (--$page) .'" class="ui labeled icon button"><i class="left chevron icon"></i>Geri</a>';
+            }
+            if (count($cities) > $last) {
+              echo '<a href="?sehirler='.$_GET['sehirler'].'&sayfa='. (++$page) .'" class="ui right labeled icon button">İleri<i class="right chevron icon"></i></a>';
+            }
+          ?>
+        </div>
+      </div>
+    <?php } ?>
     <script type="text/javascript">
       $('#multi-select')
         .dropdown()
