@@ -67,3 +67,30 @@ h2{
     width: 80%;
     min-height: 50px;
 }
+@media (max-width: 1000px) {
+  .city{
+    width: 23%;
+  }
+  .cities{
+    width: 98%;
+  }
+}
+@media (max-width: 850px) {
+  .city{
+    width: 30%;
+  }
+}
+@media (max-width: 600px) {
+  .index-form{
+    width: 95%;
+  }
+  .title{
+    font-size: 30px;
+    width: 95%;
+  }
+}
+@media (max-width: 450px) {
+  .city{
+    width: 45%;
+  }
+}
