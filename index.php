@@ -9,7 +9,14 @@
     <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/components/icon.min.css'>
     <link rel="stylesheet" href="/css/style.css">
   </head>
-  <body>
+  <?php
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+    include 'functions.php';
+    $color = get_backgraund();
+
+  ?>
+  <body class="<?php echo $color; ?>">
     <div class="top">
       <div class="title center">
         Hava Durumu Servisi
@@ -32,7 +39,7 @@
               <div class="item" data-value="kırşehir">Kırşehir</div>
             </div>
           </div><br>
-          <button class="ui animated button right floated purple" tabindex="0">
+          <button class="ui animated button right floated <?php echo $color; ?>" tabindex="0">
             <div class="visible content">Hava Durumu Bilgisini Getir</div>
             <div class="hidden content">
               <i class="right arrow icon"></i>
@@ -45,9 +52,6 @@
     </div>
     <div class="cities center">
       <?php
-        error_reporting(E_ALL);
-        ini_set('display_errors', 1);
-        include 'functions.php';
         if (isset($_GET['sehirler'])) {
           $cities = preg_split('/,/', $_GET['sehirler']);
           $page = 0;
@@ -58,11 +62,10 @@
           $last = 5 * $page + 5;
           $new_cities = array_slice($cities, $first, $last);
           foreach ($new_cities as $city) {
-            hava_durumu($city);
+            hava_durumu($city, $color);
           }
         }
       ?>
-
     </div>
     <?php if (isset($_GET['sehirler'])) { ?>
       <div class="pages center">
